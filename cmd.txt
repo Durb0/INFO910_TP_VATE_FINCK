@@ -1,0 +1,3 @@
+set namespace : kubectl config set-context --current --namespace=v-books
+init db : kubectl create configmap mysql-initdb-config --from-file=./init.sql
+ouverture ports : kubectl port-forward service/api-service 8080:8080

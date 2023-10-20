@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+  namespace: v-books
+  labels:
+    app: api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: api
+      tier: backend
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: api
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: api
+          image: copsfuraxx/devops:api
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+      initContainers:
+        - name: wait-for-mysql
+          image: busybox
+          command: ['sh', '-c', 'until nc mysql 3306; do echo waiting for mysql; sleep 2; done;']
